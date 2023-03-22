@@ -17,6 +17,9 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
 		integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
 		crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<!--  datatable -->
+	<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<link rel="stylesheet" href="{% static 'assets/plugins/datatables/datatables.min.css' %}">
 </head>
 
 <body>
@@ -38,6 +41,13 @@
 	<script src="{% static 'assets/plugins/apexchart/apexcharts.min.js' %}"></script>
 	<script src="{% static 'assets/plugins/apexchart/chart-data.js' %}"></script>
 	<script src="{% static 'assets/js/script.js' %}"></script>
+	<script src="{% static 'assets/plugins/datatables/datatables.min.js'%}"></script>
+	<script src="https://cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$('#table_id').dataTable();
+		});
+	</script>
 </body>
 
 </html>
