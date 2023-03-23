@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 
-from app.models import CustomUser, Session_Year, Staff, Standard, Student
+from app.models import CustomUser, Session_Year, Staff, Standard, Student, Subject
 
 
 @login_required(login_url='/')
@@ -337,3 +337,93 @@ def DELETE_STAFF(request, staff_id):
 
     messages.success(request, 'Staff is Deleted')
     return redirect('view_staff')
+
+
+@login_required(login_url='/')
+def ADD_SUBJECT(request):
+    standard = Standard.objects.all()
+    staff = Staff.objects.all()
+
+    if request.method == "POST":
+        subject_name = request.POST.get('subject_name')
+        standard_id = request.POST.get('standard_id')
+        staff_id = request.POST.get('staff_id')
+
+        standard = Standard.objects.get(id=standard_id)
+        staff = Staff.objects.get(id=staff_id)
+
+        subject = Subject(
+            name=subject_name,
+            standard=standard,
+            staff=staff,
+        )
+
+        subject.save()
+        messages.success(request, subject_name + ' Is Successfully Added.')
+        return redirect('add_subject')
+
+    context = {
+        'standard': standard,
+        'staff': staff,
+    }
+
+    return render(request, 'Hod/add_subject.html', context)
+
+
+@login_required(login_url='/')
+def VIEW_SUBJECT(request):
+    subject = Subject.objects.all()
+
+    context = {
+        'subject': subject,
+    }
+
+    return render(request, 'Hod/view_subject.html', context)
+
+
+@login_required(login_url='/')
+def EDIT_SUBJECT(request, subject_id):
+    subject = Subject.objects.get(id=subject_id)
+    standard = Standard.objects.all()
+    staff = Staff.objects.all()
+
+    context = {
+        'subject': subject,
+        'standard': standard,
+        'staff': staff,
+    }
+
+    return render(request, 'Hod/edit_subject.html', context)
+
+
+@login_required(login_url='/')
+def UPDATE_SUBJECT(request):
+    if request.method == "POST":
+        subject_id = request.POST.get('subject_id')
+        subject_name = request.POST.get('subject_name')
+        standard_id = request.POST.get('standard_id')
+        staff_id = request.POST.get('staff_id')
+
+        standard = Standard.objects.get(id=standard_id)
+        staff = Staff.objects.get(id=staff_id)
+
+        subject = Subject.objects.get(id=subject_id)
+        subject.name = subject_name
+        subject.staff = staff
+        subject.standard = standard
+
+        subject.save()
+        messages.success(request, 'Subject Is Successfully Updated')
+        return redirect('view_subject')
+
+        return None
+    return redirect('view_subject')
+
+
+@login_required(login_url='/')
+def DELETE_SUBJECT(request, subject_id):
+    subject = Subject.objects.get(id=subject_id)
+    subject.delete()
+
+    messages.success(request, 'Subject Is Successfully Deleted.')
+    return redirect('view_subject')

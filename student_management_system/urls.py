@@ -46,4 +46,13 @@ urlpatterns = [
     path('Hod/Standard/Delete/<str:standard_id>',
          Hod_Views.DELETE_STANDARD, name='delete_standard'),
 
+    # Subject Functions Path
+    path('Hod/Subject/Add', Hod_Views.ADD_SUBJECT, name='add_subject'),
+    path('Hod/Subject/View', Hod_Views.VIEW_SUBJECT, name='view_subject'),
+    path('Hod/Subject/Edit/<str:subject_id>',
+         Hod_Views.EDIT_SUBJECT, name='edit_subject'),
+    path('Hod/Subject/Update', Hod_Views.UPDATE_SUBJECT, name='update_subject'),
+    path('Hod/Subject/Delete/<str:subject_id>',
+         Hod_Views.DELETE_SUBJECT, name='delete_subject'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

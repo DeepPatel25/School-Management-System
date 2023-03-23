@@ -53,3 +53,14 @@ class Staff(models.Model):
 
     def __str__(self) -> str:
         return self.admin.username
+
+
+class Subject(models.Model):
+    name = models.CharField(max_length=100)
+    standard = models.ForeignKey(Standard, on_delete=models.CASCADE)
+    staff = models.ForeignKey(Staff, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return self.name
