@@ -427,3 +427,69 @@ def DELETE_SUBJECT(request, subject_id):
 
     messages.success(request, 'Subject Is Successfully Deleted.')
     return redirect('view_subject')
+
+
+@login_required(login_url='/')
+def ADD_SESSION(request):
+    if request.method == "POST":
+        session_year_start = request.POST.get('session_year_start')
+        session_year_end = request.POST.get('session_year_end')
+
+        session = Session_Year(
+            session_start=session_year_start,
+            session_end=session_year_end,
+        )
+
+        session.save()
+        messages.success(request, 'Session Year Is Successfully Added.')
+        return redirect('add_session')
+    return render(request, 'Hod/add_session.html')
+
+
+@login_required(login_url='/')
+def VIEW_SESSION(request):
+    session = Session_Year.objects.all()
+
+    context = {
+        'session': session,
+    }
+
+    return render(request, 'Hod/view_session.html', context)
+
+
+@login_required(login_url='/')
+def EDIT_SESSION(request, session_id):
+    session = Session_Year.objects.get(id=session_id)
+
+    context = {
+        'session': session,
+    }
+
+    return render(request, 'Hod/edit_session.html', context)
+
+
+@login_required(login_url='/')
+def UPDATE_SESSION(request):
+    if request.method == "POST":
+        session_id = request.POST.get('session_id')
+        session_year_start = request.POST.get('session_year_start')
+        session_year_end = request.POST.get('session_year_end')
+
+        session = Session_Year.objects.get(id=session_id)
+        session.session_start = session_year_start
+        session.session_end = session_year_end
+
+        session.save()
+
+        messages.success(request, 'Session Year Successfully Updated.')
+        return redirect('view_session')
+    return redirect('view_session')
+
+
+@login_required(login_url='/')
+def DELETE_SESSION(request, session_id):
+    session = Session_Year.objects.get(id=session_id)
+    session.delete()
+
+    messages.success(request, 'Session Year Is Successfully Deleted.')
+    return redirect('view_session')
