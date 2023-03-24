@@ -7,7 +7,23 @@ from app.models import CustomUser, Session_Year, Staff, Standard, Student, Subje
 
 @login_required(login_url='/')
 def HOME(request):
-    return render(request, 'Hod/home.html')
+    student_count = Student.objects.all().count()
+    staff_count = Staff.objects.all().count()
+    standard_count = Standard.objects.all().count()
+    subject_count = Subject.objects.all().count()
+
+    student_gender_male = Student.objects.filter(gender='Male').count()
+    student_gender_female = Student.objects.filter(gender='Female').count()
+
+    context = {
+        'student_count': student_count,
+        'staff_count': staff_count,
+        'standard_count': standard_count,
+        'subject_count': subject_count,
+        'student_gender_male': student_gender_male,
+        'student_gender_female': student_gender_female,
+    }
+    return render(request, 'Hod/home.html', context)
 
 
 @login_required(login_url='/')
