@@ -7,7 +7,8 @@
         series: [{{student_count}}, {{staff_count}}, {{ standard_count }}, {{ subject_count }}
      ],
     chart: {
-      width: 380,
+      height: 350,
+        width: "100%",
         type: 'pie',
      				},
     labels: ['Student', 'Staff', 'Standard', 'Subject'],
@@ -108,6 +109,8 @@
   ],
   chart: {
     type: 'donut',
+    height: 350,
+        width: "100%",
         },
   labels: ['Student', 'Staff'],
     responsive: [{
@@ -145,9 +148,6 @@
               offset: -5
             }
           }
-        },
-        title: {
-          text: "Monochrome Pie"
         },
         dataLabels: {
           formatter(val, opts) {

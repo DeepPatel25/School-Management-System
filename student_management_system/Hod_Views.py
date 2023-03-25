@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 
-from app.models import CustomUser, Session_Year, Staff, Standard, Student, Subject
+from app.models import CustomUser, Session_Year, Staff, Staff_Feedback, Staff_Leave, Staff_Notification, Standard, Student, Subject
 
 
 @login_required(login_url='/')
@@ -509,3 +509,78 @@ def DELETE_SESSION(request, session_id):
 
     messages.success(request, 'Session Year Is Successfully Deleted.')
     return redirect('view_session')
+
+
+@login_required(login_url='/')
+def SEND_STAFF_NOTIFICATION(request):
+    staff = Staff.objects.all()
+    seen_notification = Staff_Notification.objects.all().order_by('-id')[0:5]
+
+    context = {
+        'staff': staff,
+        'seen_notification': seen_notification,
+    }
+
+    return render(request, 'Hod/send_staff_notification.html', context)
+
+
+def SAVE_STAFF_NOTIFICATION(request):
+    if request.method == "POST":
+        staff_id = request.POST.get('staff_id')
+        message = request.POST.get('message')
+
+        staff = Staff.objects.get(admin=staff_id)
+        notification = Staff_Notification(
+            staff_id=staff,
+            message=message,
+        )
+
+        notification.save()
+        messages.success(request, 'Notifiation is Succesfully Sent.')
+        return redirect('send_staff_notification')
+
+
+def STAFF_LEAVE_VIEW(request):
+    staff_leave = Staff_Leave.objects.all()
+
+    context = {
+        'staff_leave': staff_leave,
+    }
+
+    return render(request, 'Hod/staff_leave.html', context)
+
+
+def STAFF_APPROVE_LEAVE(request, id):
+    leave_id = Staff_Leave.objects.get(id=id)
+    leave_id.status = 1
+    leave_id.save()
+    return redirect('staff_leave_view')
+
+
+def STAFF_DISAPPROVE_LEAVE(request, id):
+    leave_id = Staff_Leave.objects.get(id=id)
+    leave_id.status = 2
+    leave_id.save()
+    return redirect('staff_leave_view')
+
+
+def STAFF_FEEDBACK_REPLY(request):
+    feedback = Staff_Feedback.objects.all()
+
+    context = {
+        'feedback': feedback,
+    }
+    return render(request, 'Hod/staff_feedback.html', context)
+
+
+def STAFF_FEEDBACK_SAVE(request):
+    if request.method == "POST":
+        feedback_id = request.POST.get('feedback_id')
+        feedback_reply = request.POST.get('feedback_reply')
+
+        feedback = Staff_Feedback.objects.get(id=feedback_id)
+        feedback.feedback_reply = feedback_reply
+
+        feedback.save()
+        messages.success(request, 'Reply Successfully Sent')
+        return redirect('staff_feedback_reply')

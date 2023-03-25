@@ -64,4 +64,36 @@ urlpatterns = [
     path('Hod/Session/Delete/<str:session_id>',
          Hod_Views.DELETE_SESSION, name='delete_session'),
 
+
+    path('Hod/Staff/Send_Notification', Hod_Views.SEND_STAFF_NOTIFICATION,
+         name='send_staff_notification'),
+    path('Hod/Staff/Save_notification', Hod_Views.SAVE_STAFF_NOTIFICATION,
+         name='save_staff_notification'),
+
+    path('Hod/Staff/Leave_View', Hod_Views.STAFF_LEAVE_VIEW,
+         name='staff_leave_view'),
+    path('Hod/Staff/Approve_leave/<str:id>', Hod_Views.STAFF_APPROVE_LEAVE,
+         name='staff_approve_leave'),
+    path('Hod/Staff/Disapprove_leave/<str:id>', Hod_Views.STAFF_DISAPPROVE_LEAVE,
+         name='staff_disapprove_leave'),
+
+    path('Hod/Staff/Feedback', Hod_Views.STAFF_FEEDBACK_REPLY,
+         name='staff_feedback_reply'),
+    path('Hod/Staff/Feedback/Save', Hod_Views.STAFF_FEEDBACK_SAVE,
+         name='staff_feedback_reply_save'),
+
+    # This Is A Staff Url
+    path('Staff/Home', Staff_Views.HOME, name='staff_home'),
+    path('Staff/Notifications', Staff_Views.NOTIFICATIONS, name='notifications'),
+    path('Staff/mark_as_done/<str:staff_notification_id>', Staff_Views.STAFF_NOTIFICATION_MARK_AS_DONE,
+         name='staff_notification_mark_as_done'),
+    path('Staff/Apply_Leave', Staff_Views.STAFF_APPLY_LEAVE,
+         name='staff_apply_leave'),
+    path('Staff/Apply_leave_save', Staff_Views.STAFF_APPLY_LEAVE_SAVE,
+         name='staff_apply_leave_save'),
+
+    path('Staff/Feedback', Staff_Views.STAFF_FEEDBACK, name='staff_feedback'),
+    path('Staff/Feedback/Save', Staff_Views.STAFF_FEEDBACK_SAVE,
+         name='staff_feedback_save'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
