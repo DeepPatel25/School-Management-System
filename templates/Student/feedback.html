@@ -3,22 +3,22 @@
   <div class="page-header">
     <div class="row align-items-center">
       <div class="col">
-        <h3 class="page-title">Send Staff Notification</h3>
+        <h3 class="page-title">Feedback</h3>
         <ul class="breadcrumb">
           <li class="breadcrumb-item">
-            <a href="{% url 'hod_home' %}">Dashboard</a>
+            <a href="{% url 'student_home' %}">Dashboard</a>
           </li>
-          <li class="breadcrumb-item active">Send Staff Notification</li>
+          <li class="breadcrumb-item active">Feedback</li>
         </ul>
       </div>
       <div class="col-auto text-right float-right ml-auto">
         <button
-          type="button"
-          class="btn btn-primary"
+          class="btn btn-primary mr-2"
           data-toggle="modal"
-          data-target="#exampleModalCenter"
+          data-target=".bd-example-modal-lg"
+          type="button"
         >
-          View all Notification
+          <i class="fas fa-comments"></i>&nbsp; Feedback History
         </button>
       </div>
     </div>
@@ -26,51 +26,31 @@
   {% include 'includes/messages.html' %}
   <div class="row">
     <div class="col-sm-12">
-      <div class="card card-table">
+      <div class="card">
         <div class="card-body">
-          <div class="table-responsive">
-            <table id="table_id" class="table table-hover table-center mb-0">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th class="text-right">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for i in staff %}
-                <tr>
-                  <td>{{ i.id }}</td>
-                  <td>
-                    <h2 class="table-avatar">
-                      <a href="#" class="avatar avatar-sm mr-2"
-                        ><img
-                          class="avatar-img rounded-circle"
-                          src="/{{ i.admin.profile_pic }}"
-                          alt="User Image"
-                      /></a>
-                      <a href="#"
-                        >{{ i.admin.first_name }} {{ i.admin.last_name }}</a
-                      >
-                    </h2>
-                  </td>
-                  <td>{{ i.admin.email }}</td>
-                  <td class="text-right">
-                    <button
-                      type="button"
-                      class="btn btn-primary"
-                      data-toggle="modal"
-                      data-target="#sendnotification-{{forloop.counter}}"
-                    >
-                      Send Notification
-                    </button>
-                  </td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
+          <form method="post" action="{% url 'student_feedback_save' %}">
+            {% csrf_token %}
+            <div class="row">
+              <div class="col-12">
+                <h5 class="form-title"><span>Feedback</span></h5>
+              </div>
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label>Feedback</label>
+                  <textarea
+                    class="form-control"
+                    name="feedback"
+                    required
+                  ></textarea>
+                </div>
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary">
+                  Send Feedback
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -112,9 +92,8 @@
                   >
                     <thead>
                       <tr>
-                        <th style="width: 60%">Message</th>
-                        <th style="width: 40%">To</th>
-                        <th style="width: 30%" class="text-right">Status</th>
+                        <th style="width: 60%">Feedback</th>
+                        <th style="width: 30%" class="text-right">Reply</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -158,21 +137,17 @@
   </div>
 </div>
 
-{% for i in staff %}
 <div
-  class="modal fade"
-  id="sendnotification-{{forloop.counter}}"
+  class="modal fade bd-example-modal-lg"
   tabindex="-1"
   role="dialog"
-  aria-labelledby="exampleModalCenterTitle1"
+  aria-labelledby="myLargeModalLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle1">
-          Sent Notification To {{ i.admin.first_name }} {{i.admin.last_name }}
-        </h5>
+        <h5 class="modal-title" id="exampleModalLabel">Leave Apply History</h5>
         <button
           type="button"
           class="close"
@@ -183,24 +158,45 @@
         </button>
       </div>
       <div class="modal-body">
-        <form method="post" action="{% url 'save_staff_notification' %}">
-          {% csrf_token %}
-          <div class="form-group">
-            <input type="text" class="form-control" name="message" />
-            <input
-              type="text"
-              class="form-control"
-              name="staff_id"
-              hidden
-              value="{{i.admin.id}}"
-            />
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="card card-table">
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table
+                    id="table_id"
+                    class="table table-hover table-center mb-0"
+                  >
+                    <thead>
+                      <tr>
+                        <th>Id</th>
+                        <th>Feedback</th>
+                        <th>Reply</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for i in feedback_history %}
+                      <tr>
+                        <td>{{ i.id }}</td>
+                        <td>{{ i.feedback }}</td>
+                        {% if i.feedback_reply == '' %}
+                        <td>
+                          <span class="badge badge-danger">No Reply</span>
+                        </td>
+                        {% else %}
+                        <td>{{ i.feedback_reply }}</td>
+                        {% endif %}
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
           </div>
-          <button type="submit" class="btn btn-primary">
-            Send Notification
-          </button>
-        </form>
+        </div>
       </div>
     </div>
   </div>
 </div>
-{% endfor %} {% endblock %}
+{% endblock %}

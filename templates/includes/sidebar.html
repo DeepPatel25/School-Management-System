@@ -78,14 +78,14 @@
             ><i class="fa fa-bell"></i> <span> Send Staff Notification</span></a
           >
         </li>
-        <li>
-          <a href="holiday.html"
+        <li class="{% active_link 'send_student_notification' 'active' %}">
+          <a href="{% url 'send_student_notification' %}"
             ><i class="fa fa-bell"></i>
             <span> Send Student Notification</span></a
           >
         </li>
-        <li>
-          <a href="holiday.html"
+        <li class="{% active_link 'view_attendance' 'active' %}">
+          <a href="{% url 'view_attendance' %}"
             ><i class="fa fa-calendar-days"></i>
             <span> View Attendence</span></a
           >
@@ -95,8 +95,8 @@
             ><i class="fas fa-comments"></i> <span> Staff Feedback</span></a
           >
         </li>
-        <li>
-          <a href="holiday.html"
+        <li class="{% active_link 'student_feedback_reply' 'active' %}">
+          <a href="{% url 'student_feedback_reply' %}"
             ><i class="fas fa-comments"></i> <span> Student Feedback</span></a
           >
         </li>
@@ -105,8 +105,8 @@
             ><i class="fas fa-envelope"></i> <span> Staff Leave</span></a
           >
         </li>
-        <li>
-          <a href="holiday.html"
+        <li class="{% active_link 'student_leave_view' 'active' %}">
+          <a href="{% url 'student_leave_view' %}"
             ><i class="fas fa-envelope"></i> <span> Student Leave</span></a
           >
         </li>
@@ -126,20 +126,20 @@
             ><i class="fas fa-home"></i> <span>Dashboard</span></a
           >
         </li>
-        <li class="{% active_link 'hod_home' 'active' %}">
-          <a href="{% url 'hod_home' %}"
+        <li class="{% active_link 'staff_take_attendance' 'active' %}">
+          <a href="{% url 'staff_take_attendance' %}"
             ><i class="fas fa-calendar-days"></i>
             <span>Take Attendence </span></a
           >
         </li>
-        <li class="{% active_link 'hod_home' 'active' %}">
-          <a href="{% url 'hod_home' %}"
+        <li class="{% active_link 'staff_view_attendance' 'active' %}">
+          <a href="{% url 'staff_view_attendance' %}"
             ><i class="fas fa-calendar-days"></i>
-            <span>View/Update Attendence</span></a
+            <span>View/Update Attendence </span></a
           >
         </li>
-        <li class="{% active_link 'hod_home' 'active' %}">
-          <a href="{% url 'hod_home' %}"
+        <li class="{% active_link 'staff_add_result' 'active' %}">
+          <a href="{% url 'staff_add_result' %}"
             ><i class="fas fa-poll-h"></i> <span>Add Result</span></a
           >
         </li>
@@ -165,7 +165,48 @@
           >
         </li>
       </ul>
-      {% else %} {% endif %}
+      {% else %}
+      <ul>
+        <li class="menu-title">
+          <span>Main Menu</span>
+        </li>
+        <li class="{% active_link 'student_home' 'active' %}">
+          <a href="{% url 'student_home' %}"
+            ><i class="fas fa-home"></i> <span>Dashboard</span></a
+          >
+        </li>
+        <li class="{% active_link 'student_view_attendance' 'active' %}">
+          <a href="{% url 'student_view_attendance' %}"
+            ><i class="fa fa-calendar-days"></i> <span>View Attendence</span></a
+          >
+        </li>
+        <li class="{% active_link 'view_result' 'active' %}">
+          <a href="{% url 'view_result' %}"
+            ><i class="fa fa-poll-h"></i> <span>View Result</span></a
+          >
+        </li>
+        <li class="{% active_link 'student_apply_leave' 'active' %}">
+          <a href="{% url 'student_apply_leave' %}"
+            ><i class="fas fa-pray"></i> <span>Apply For Leave</span></a
+          >
+        </li>
+        <li class="{% active_link 'student_feedback' 'active' %}">
+          <a href="{% url 'student_feedback' %}"
+            ><i class="fas fa-comments"></i> <span>Feedback</span></a
+          >
+        </li>
+        <li class="{% active_link 'student_notification' 'active' %}">
+          <a href="{% url 'student_notification' %}"
+            ><i class="fa fa-bell"></i> <span>Notifications</span></a
+          >
+        </li>
+        <li>
+          <a href="{% url 'logout' %}"
+            ><i class="fa fa-sign-out"></i> <span> Logout</span></a
+          >
+        </li>
+      </ul>
+      {% endif %}
     </div>
   </div>
 </div>

@@ -116,29 +116,24 @@
                     <thead>
                       <tr>
                         <th style="width: 60%">Feedback</th>
+                        <th style="width: 40%">From</th>
                         <th style="width: 30%" class="text-right">Reply</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {% for i in seen_notification %}
+                      {% for i in feedback %}
                       <tr>
-                        <td>{{ i.message }}</td>
+                        <td>{{ i.feedback }}</td>
                         <td>
                           {{ i.staff_id.admin.first_name }}
                           {{i.staff_id.admin.last_name }}
                         </td>
                         {% if i.status == 0 %}
                         <td>
-                          <span class="badge badge-danger"
-                            >Unread The Message.</span
-                          >
+                          <span class="badge badge-danger">No Reply</span>
                         </td>
                         {% else %}
-                        <td>
-                          <span class="badge badge-success"
-                            >Read The Message.</span
-                          >
-                        </td>
+                        <td>{{i.feedback_reply}}</td>
                         {% endif %}
                       </tr>
                       {% endfor %}

@@ -3,12 +3,12 @@
   <div class="page-header">
     <div class="row align-items-center">
       <div class="col">
-        <h3 class="page-title">Send Staff Notification</h3>
+        <h3 class="page-title">Send Student Notification</h3>
         <ul class="breadcrumb">
           <li class="breadcrumb-item">
             <a href="{% url 'hod_home' %}">Dashboard</a>
           </li>
-          <li class="breadcrumb-item active">Send Staff Notification</li>
+          <li class="breadcrumb-item active">Send Student Notification</li>
         </ul>
       </div>
       <div class="col-auto text-right float-right ml-auto">
@@ -39,7 +39,7 @@
                 </tr>
               </thead>
               <tbody>
-                {% for i in staff %}
+                {% for i in student %}
                 <tr>
                   <td>{{ i.id }}</td>
                   <td>
@@ -122,8 +122,8 @@
                       <tr>
                         <td>{{ i.message }}</td>
                         <td>
-                          {{ i.staff_id.admin.first_name }}
-                          {{i.staff_id.admin.last_name }}
+                          {{ i.student_id.admin.first_name }}
+                          {{i.student_id.admin.last_name }}
                         </td>
                         {% if i.status == 0 %}
                         <td>
@@ -158,7 +158,7 @@
   </div>
 </div>
 
-{% for i in staff %}
+{% for i in student %}
 <div
   class="modal fade"
   id="sendnotification-{{forloop.counter}}"
@@ -171,7 +171,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLongTitle1">
-          Sent Notification To {{ i.admin.first_name }} {{i.admin.last_name }}
+          Sent To {{ i.admin.first_name }} {{i.admin.last_name }}
         </h5>
         <button
           type="button"
@@ -183,14 +183,14 @@
         </button>
       </div>
       <div class="modal-body">
-        <form method="post" action="{% url 'save_staff_notification' %}">
+        <form method="post" action="{% url 'save_student_notification' %}">
           {% csrf_token %}
           <div class="form-group">
             <input type="text" class="form-control" name="message" />
             <input
               type="text"
               class="form-control"
-              name="staff_id"
+              name="student_id"
               hidden
               value="{{i.admin.id}}"
             />
